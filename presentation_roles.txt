@@ -1,0 +1,106 @@
+# Presentation Roles & Work Split / 答辩分工作弊条
+
+This document contains the equitable 3-part work split for your Machine Learning Final Project defense, encompassing Data Engineering, Core Algorithms, and Unsupervised Learning/UI.
+
+=======================================================
+🇨🇳 中文版分工安排 (Chinese Version)
+=======================================================
+
+这份代码的架构非常清晰，技术亮点十足（包含了从零手写算法、自然语言处理和无监督学习）。对于三人小组的期末答辩，整个项目被极其合理地平均切分为：“数据与模型预处理”、“底层引擎与向量代数算法”、“无监督学习与数据可视化”。
+
+### 🙋‍♂️ 同学 A：数据工程与特征表示 (Data Engineering & Embeddings)
+**核心任务**：向老师解释你们是如何处理脏数据，并把文字转化成机器能理解的高维向量的。
+
+* **负责讲解的文件**：
+  * `data.py` (数据加载与清洗)
+  * `embed.py` (NLP 文本转向量引擎)
+  * 参考文档：`data_cleaning_notes.md`
+* **负责的核心概念**：
+  1. **正则表达式清洗 (Regex Unpacking)**：解释原本 HuggingFace 传来的如 `['Action' 'RPG']` 这类坏字符串，是如何被正则表达式精准截取并转化为逗号分隔文本的。如果不这么做，系统将会发生“维度爆炸 (Dimension Explosion)”。
+  2. **Hash 集合去重 (Set Deduplication)**：讲解前端侧边栏是如何利用 Python 的 `set()` 底层 Hash 表的 O(1) 机制，完美剔除百万个重复标签的。
+  3. **Sentence-Transformer 稠密向量化 (Dense Embeddings)**：说明为什么把标题、流派、描述等文本拼接在一起，然后交由 `all-MiniLM-L6-v2` 模型转换成高维向量。
+* **老师可能的提问**：“你们是如何处理游戏中不规范的源数据的？”
+  * **应对策略**：详细描述 `data.py` 里 `clean_hf_list()` 函数中对坏括号和引号的清理策略，并说明没有这一步就无法建立分类系统。
+
+
+### 🧑‍💻 同学 B：核心代数引擎与排雷推荐 (Core Search Algorithms & Vector Math)
+**核心任务**：向老师展示项目中最硬核的“纯手写数学部分”，证明你们不是只会无脑调包的 API 调用者。
+
+* **负责讲解的文件**：
+  * `retrieval.py` (核心检索引擎与向量代数)
+  * 参考文档：`algorithm_notes.md`
+* **负责的核心概念**：
+  1. **降维提速思想 (Cosine to Dot Product)**：解释你们如何通过事先对每一条向量套用 L2 归一化 (L2 Normalization)，把笨重的余弦相似度除法方程，极简为飞快的纯向量内积 (Dot Product) 相乘，从而将延迟压在毫秒级。
+  2. **排雷/降权向量推力 (Dealbreaker Algebra)**：讲述推荐系统是如何通过在空间中减去特定向量（Q_optimized = Q_positive - α * Q_negative），利用向量分离向外的推力在空间层面避开玩家讨厌的元素的。
+  3. **奇妙空间中点 (Vector Midpoint)**：说明“Surprise Me”功能其实是在计算两个截然不同概念（如血腥 vs 可爱）空间的绝对数学中点 `(V1 + V2)/2`，然后用最近邻找出来的。
+* **老师可能的提问**：“你们自己手写的推荐算法比起 Sklearn 库有什么核心区别？”
+  * **应对策略**：回答你们直接操纵了向量在多维空间里的坐标轴推移（避雷功能），而不用落俗套的布尔（Boolean）硬过滤。
+
+
+### 👩‍🔬 同学 C：无监督学习与可视化交互展示 (Unsupervised ML & Data Visualization)
+**核心任务**：应对教授对于探索性数据分析 (EDA) 以及降维展现的要求，并串联起整个平台。
+
+* **负责讲解的文件**：
+  * `clustering.py` (无监督聚类)
+  * `viz.py` (降维与图表绘制)
+  * `app.py` (系统整合与 Streamlit UI 架构)
+* **负责的核心概念**：
+  1. **无监督学习 (K-Means Clustering)**：讲解系统是如何在不知道游戏类型的标签前提下，纯粹依靠 Embedding 背后的语义距离，利用 K-Means 自动切分出 8 个星系群落的。
+  2. **主成分分析降维 (PCA Dimensionality Reduction)**：解释由于人眼无法看懂几百维度的空间，所以使用 PCA 把庞大的矩阵降维挤压成了 2D 平面上的 PC1 和 PC2 坐标，从而生成散点图。
+  3. **UI 过滤与全集打通**：讲述前端面板 `app.py` 中如何实时接收并切片数据，响应来自 UI 侧边栏的交互（Slider, SelectBox）。
+* **老师可能的提问**：“你们生成的那个好看的 2D 散点星系图，它是怎么在两根轴上表现这么多数据的？”
+  * **应对策略**：抛出 PCA 概念，说明它是通过提炼出矩阵最大的特征方差（Variance）在二维平面上保留的最大语义投影。
+
+
+
+=======================================================
+🇺🇸 English Version (Presentation Roles)
+=======================================================
+
+This codebase is highly structured and packed with technical highlights (from-scratch algorithms, NLP, unsupervised learning). For a 3-person final defense, the project is perfectly divided into: **Data & Embedding**, **Core Search & Vector Math**, and **Unsupervised ML & UI Integration**.
+
+### 🙋‍♂️ Student A: Data Engineering & Embeddings
+**Core Task:** Explain how the team handled dirty data and transformed text into high-dimensional vectors understood by the machine.
+
+* **Files Responsible:**
+  * `data.py` (Data loading & cleaning)
+  * `embed.py` (NLP text-to-vector engine)
+  * Reference: `data_cleaning_notes.md`
+* **Core Concepts:**
+  1. **Regex Unpacking:** Explain how malformed strings from HuggingFace (like `['Action' 'RPG']`) were precisely extracted into comma-separated text using Regular Expressions. Without this, the system would suffer from "Dimension Explosion."
+  2. **Set Deduplication:** Explain how the frontend sidebar leverages the O(1) Hash Table mechanism of Python's `set()` to perfectly eliminate millions of duplicate tags.
+  3. **Sentence-Transformer Dense Embeddings:** Explain why the title, genres, and descriptions are concatenated and then fed into the `all-MiniLM-L6-v2` model to generate high-dimensional vectors.
+* **Potential Professor Question:** "How did you handle the unformatted source data in the games dataset?"
+  * **Strategy:** Detail the strategy inside the `clean_hf_list()` function in `data.py` for stripping bad brackets/quotes, emphasizing that without this step, a categorical system cannot be built.
+
+
+### 🧑‍💻 Student B: Core Search Algorithms & Vector Math
+**Core Task:** Present the most hardcore "from-scratch" mathematical parts of the project, proving the team didn't just blindly call APIs.
+
+* **Files Responsible:**
+  * `retrieval.py` (Core retrieval engine & vector algebra)
+  * Reference: `algorithm_notes.md`
+* **Core Concepts:**
+  1. **Cosine to Dot Product Simplification:** Explain how applying L2 Normalization to every vector beforehand allowed you to reduce the heavy Cosine Similarity division equation into a blazing-fast pure Vector Dot Product, dropping latency to milliseconds.
+  2. **Dealbreaker Algebra (Penalty Vectors):** Describe how the recommendation system avoids elements players dislike by subtracting a specific vector in space (Q_optimized = Q_positive - α * Q_negative), using spatial outward repulsion.
+  3. **Vector Spatial Midpoint:** Explain that the "Surprise Me" feature calculates the absolute mathematical midpoint between two contrasting conceptual spaces (e.g., Ultra-Violence vs. Cute) using `(V1 + V2)/2`, then uses Nearest Neighbors to find the result.
+* **Potential Professor Question:** "What is the core difference between your from-scratch recommendation algorithm and the Sklearn library?"
+  * **Strategy:** Answer that you directly manipulated the coordinate axis shifts of vectors in multi-dimensional space (for the Dealbreaker feature), completely bypassing cliché Boolean hard-filtering.
+
+
+### 👩‍🔬 Student C: Unsupervised ML & Data Visualization
+**Core Task:** Tackle the professor's requirements for Exploratory Data Analysis (EDA) and dimensionality reduction, and tie the whole platform together.
+
+* **Files Responsible:**
+  * `clustering.py` (Unsupervised clustering)
+  * `viz.py` (Dimensionality reduction & plotting)
+  * `app.py` (System integration & Streamlit UI)
+* **Core Concepts:**
+  1. **K-Means Clustering (Unsupervised Learning):** Explain how the system automatically partitioned the massive game dataset into 8 macro-clusters relying purely on underlying semantic distances, without knowing any predefined game genre labels.
+  2. **PCA Dimensionality Reduction:** Explain that because the human eye cannot comprehend hundreds of dimensions, you applied Principal Component Analysis (PCA) to compress the massive matrix onto a 2D plane (PC1 & PC2 coordinates) to generate the scatter plot.
+  3. **UI Filtering & Integration:** Describe how the frontend (`app.py`) natively receives and slices data in real-time, responding to interactive sidebar elements (Sliders, SelectBoxes).
+* **Potential Professor Question:** "How does your 2D galactic scatter plot represent so much data on just two axes?"
+  * **Strategy:** Bring up PCA, explaining that it extracts the maximum feature variance of the matrix to retain the largest semantic projection on a 2D plane.
+
+---
+If the professor follows the logical flow tomorrow, you will present perfectly: **Student A covers the data starting point -> Student B explains the core matching mathematics -> Student C concludes with advanced model insights and UI presentation.** The logical loop is flawless!
