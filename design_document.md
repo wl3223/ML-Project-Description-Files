@@ -44,3 +44,11 @@ Our team consists of 5 members. The responsibilities are modularized to ensure e
 
 ## 3. Stub Code & GitHub Repository
 *(Note for submission: The above structure will be initialized in a public GitHub repository. It will contain empty placeholder `.py` files, a functional `requirements.txt` to instantiate the virtual environment, and a `README.md` detailing the project.)*
+
+
+## 4. Future Steps
+- Add unit tests for math correctness in retrieval.py: zero-vector behavior, score bounds, ranking monotonicity, and custom vs sklearn parity on a toy dataset.
+- Add a small evaluation script (e.g., scripts/eval.py) to prove the claims in notes (latency + relevance), instead of relying only on UI demos.
+- Add deterministic reproducibility controls: fixed seeds and documented settings for clustering/projection in clustering.py and viz.py.
+- Improve exact genre filtering logic (currently substring-style in app.py) so filtering aligns with your “precise semantic control” narrative.
+- Implement missing release year filter wiring in app.py (you compute release_year but don’t expose/apply it in sidebar filtering).
